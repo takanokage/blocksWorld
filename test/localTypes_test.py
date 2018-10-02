@@ -3,7 +3,7 @@ import numpy as np
 
 
 from PIL import Image, ImageDraw
-from localTypes import *
+from blocksWorld.localTypes import *
 from draw import *
 
 imageSize = (640, 480)
