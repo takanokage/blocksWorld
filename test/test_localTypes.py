@@ -1,12 +1,11 @@
 import unittest
 import numpy as np
-"""" Testing of Vertices for a given polygon
- 
- and obtained vertices are rotated and tested""" 
+
+"""Testing of Vertices for a given polygon 
+and obtained vertices are rotated and tested"""
 
 from PIL import Image, ImageDraw
-from localTypes import *
-from draw import *
+from blocksWorld import *
 
 imageSize = (640, 480)
 imageMode = 'L'
@@ -33,7 +32,7 @@ points = [
 
 
 def return_angle(pt1, pt2):
-    # Finds the angle between two points
+    """ Finds the angle between two points"""
     x1, y1 = pt1
     x2, y2 = pt2
 
@@ -62,8 +61,9 @@ class TestLocalTypes(unittest.TestCase):
             self.assertEqual(expected, result)
         print('\npoints2vertices with one point and a lot of points: PASS.')
 
-    # Unit Tests for testing rotatePoints module
-    # Rotation with a point from the set as centre
+    """ Unit Tests for testing rotatePoints module"""
+
+    """Rotation with a point from the set as centre"""
     def test_rotatePointsequals1(self):
         
         """Testing if there is a single point in the set - 
@@ -73,49 +73,51 @@ class TestLocalTypes(unittest.TestCase):
         self.assertEqual(single_point, rotatePoints(single_point, single_point[0], 90.0))
         print('\nrotatePoints with one point and the same point as centre: PASS.')
 
+        """Testing if there are multiple points in a set- 
+
+           Finding angle between rotated points
+
+           by adding return_angle method in test"""
+
         if len(points) == 1:
             self.assertEqual(points, rotatePoints(points, points[0], 90.0))
-
-        """Testing if there are multiple points in a set- 
-        
-        Finding angle between rotated points
-        
-        by adding return_angle method in test"""
         
         else:
             rotated_points = rotatePoints(points, points[0], 90.0)
             self.assertNotEqual(points, rotated_points)
 
-            # Checking if first points are same as center is the first point
+            """Checking if first points are same as center is the first point """
             self.assertEqual(points[0], rotated_points[0])
 
-            # Checking the angle between the points
+            """Checking the angle between the points"""
             for i in range(len(points)):
                 if i == 0:
                     i += 1
                 self.assertTrue(return_angle(points[i], rotated_points[i]), math.pi/2.0)
         print('\nrotatePoints with a set of multiple points: PASS.')
 
-    # Rotation with a random point which is not in the set as centre
+    """ Rotation with a random point which is not in the set as centre """
     def test_rotatePointsequals2(self):
-        # If there is a single point in the set
+
+        """ Checking if there is a single point in the set"""
+
         self.assertNotEqual(points, rotatePoints(single_point, Point(160, 120), 180.0))
         print('\nrotatePoints with one point and some random point as centre: PASS.')
 
+        """Checking if there are multiple points in a set"""
         if len(points) == 1:
             self.assertNotEqual(points, rotatePoints(points, Point(160, 120), 180.0))
 
-        # If there are multiple points in a set
         else:
             rotated_points = rotatePoints(points, Point(160, 120), 180.0)
 
-            # Checking if the points are same or not as center is not the first point
+            """Checking if the points are same or not as center is not the first point"""
             self.assertNotEqual(points, rotated_points)
 
-            # Checking if first points are not same or not as center is not the first point
+            """Checking if first points are not same or not as center is not the first point"""
             self.assertNotEqual(points[0], rotated_points[0])
 
-            # Checking the angle between the points
+            """Checking the angle between the points"""
             for i in range(len(points)):
                 self.assertTrue(return_angle(points[i], rotated_points[i]), math.pi)
         print('\nrotatePoints with a set of multiple points and some random point as centre: PASS.')

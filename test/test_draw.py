@@ -1,8 +1,9 @@
 import unittest
-
-from blocksWorld import *
+from Tkinter import Image
 
 """ Testing Image for a given imageSize=(640,480) . Checking whether the given points lies in the plane """
+
+from blocksWorld import *
 
 imageSize = (640, 480)
 x, y = imageSize
@@ -32,7 +33,7 @@ points = [
 
 class TestDraw(unittest.TestCase):
     
-"""Checking for points inside the given imageSize""" 
+    """Checking for points inside the given imageSize"""
 
     def testPointInImageDimensions(self):
         for i in range(len(points)):
