@@ -1,6 +1,8 @@
 import unittest
 import numpy as np
-
+"""" Testing of Vertices for a given polygon
+ 
+ and obtained vertices are rotated and tested""" 
 
 from PIL import Image, ImageDraw
 from localTypes import *
@@ -45,7 +47,8 @@ def return_angle(pt1, pt2):
 
 class TestLocalTypes(unittest.TestCase):
 
-    # Unit Test for testing points2vertices module
+    """ Test for vertices generation for given polygon"""
+    
     def test_points2verticesequals(self):
         expected = []
         if len(points) == 1:
@@ -62,14 +65,23 @@ class TestLocalTypes(unittest.TestCase):
     # Unit Tests for testing rotatePoints module
     # Rotation with a point from the set as centre
     def test_rotatePointsequals1(self):
-        # If there is a single point in the set
+        
+        """Testing if there is a single point in the set - 
+         
+         rotation results in same vertex"""
+        
         self.assertEqual(single_point, rotatePoints(single_point, single_point[0], 90.0))
         print('\nrotatePoints with one point and the same point as centre: PASS.')
 
         if len(points) == 1:
             self.assertEqual(points, rotatePoints(points, points[0], 90.0))
 
-        # If there are multiple points in a set
+        """Testing if there are multiple points in a set- 
+        
+        Finding angle between rotated points
+        
+        by adding return_angle method in test"""
+        
         else:
             rotated_points = rotatePoints(points, points[0], 90.0)
             self.assertNotEqual(points, rotated_points)
