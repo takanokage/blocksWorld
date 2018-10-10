@@ -2,13 +2,23 @@
 # Copyright (c) 2018 Dan Petre
 # The MIT License (MIT)
 rm -rf build/
+
 rm -rf dist/
+
 rm -rf *.egg-info/
+
 rm -rf blocksWorld/*.pyc
+
 rm -rf blocksWorld/__pycache__
+
 rm -rf ./.pytest_cache/
+
 rm -rf ./.eggs/
+
 rm -rf blocksWorld.egg-info
+
 rm -rf test/draw.png
+
 rm -rf test/localTypes.png
+
 rm -rf test/polygon.png
