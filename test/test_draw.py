@@ -2,6 +2,8 @@ import unittest
 
 from blocksWorld import *
 
+""" Testing Image for a given imageSize=(640,480) . Checking whether the given points lies in the plane """
+
 imageSize = (640, 480)
 x, y = imageSize
 imageMode = 'L'
@@ -29,6 +31,8 @@ points = [
 
 
 class TestDraw(unittest.TestCase):
+    
+"""Checking for points inside the given imageSize""" 
 
     def testPointInImageDimensions(self):
         for i in range(len(points)):
@@ -37,6 +41,9 @@ class TestDraw(unittest.TestCase):
         print('\nPoints can be drawn as the dimentions are in the range of the output image size: PASS.')
 
     def testPointOutOfImageDimensions(self):
+        
+        """" Checking the points  which are out of range """
+        
         for i in range(len(outPoints)):
             x1, y1 = outPoints[i]
             self.assertFalse(1 <= x1 <= x and 1 <= y1 <= y)
