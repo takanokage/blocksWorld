@@ -6,6 +6,11 @@ python:
 
 cache: pip
 
+machine:
+  pre:
+    - pyenv install 3.5
+    - virtualenv venv
+
 install:
   - pip install image
   - pip install recordtype
