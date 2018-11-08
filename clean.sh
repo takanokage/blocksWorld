@@ -22,4 +22,8 @@ rm -rf blocksWorld.egg-info
 
 rm -rf data
 
+rm -rf data_result
+
+rm -rf data_expected
+
 find . -iname .DS_Store -delete

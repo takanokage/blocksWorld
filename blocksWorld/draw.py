@@ -58,7 +58,7 @@ def drawSolid(canvas, points, color):
     Solid color fill.
     """
     polygonVertices = tuple(map(tuple, points))
-    canvas.polygon(polygonVertices, fill=color, outline = 'black')
+    canvas.polygon(polygonVertices, fill=color, outline='black')
 
 def drawPattern(canvas, points, pattern):
     """
