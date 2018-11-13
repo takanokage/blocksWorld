@@ -23,24 +23,21 @@ if not os.path.exists(expectedDirectory):
     os.makedirs(expectedDirectory)
 
 points = np.array([
-    [50,  5],
-    [50, 15],
-    [50, 25],
-    [50, 35],
-    [50, 45],
-    [50, 55],
-    [50, 65],
-    [50, 75]
+    [320,  250],
+    [320,  260],
+    [320,  270],
+    [320,  280],
 ])
 
 
 class test_transform(unittest.TestCase):
 
     """
-    This class tests for rotation of vertices for 180 degrees
+    This class tests for rotation and tranformation of points
     """
     # Reference image for rotate.
     def test_rotate(self):
+
         fileName = 'test_rotate.png'
 
         # Result image for rotate
@@ -50,6 +47,7 @@ class test_transform(unittest.TestCase):
         center = np.array([180, 140])
         draw(result_canvas, [center], 'center')
         rotatedPoints = rotate(points, center, 90.0)
+
         draw(result_canvas, rotatedPoints, 'X')
         result_image.save(resultDirectory + "/" + fileName, fileType)
         result_image.close()
@@ -61,17 +59,51 @@ class test_transform(unittest.TestCase):
             expected_canvas.text((point[0], point[1]), '+')
         expected_canvas.text((180, 140), 'center')
         rotatedPoints = np.array([
-            [315., 10.],
-            [305., 10.],
-            [295., 10.],
-            [285., 10.],
-            [275., 10.],
-            [265., 10.],
-            [255., 10.],
-            [245., 10.],
+            [70, 280],
+            [60, 280],
+            [50, 280],
+            [40, 280],
         ])
         for point in rotatedPoints:
             expected_canvas.text((point[0], point[1]), 'X')
+        expected_image.save(expectedDirectory + "/" + fileName, fileType)
+        expected_image.close()
+
+        result = resultDirectory + "/" + fileName
+        expected = expectedDirectory + "/" + fileName
+
+        self.assertTrue(open(result, "rb").read() == open(expected, "rb").read())
+
+    def test_transform(self):
+        fileName = 'test_transform.png'
+
+        # Result image for transform
+        result_image = Image.new(imageMode, imageSize, imageBackground)
+        result_canvas = ImageDraw.Draw(result_image)
+
+        draw(result_canvas, points, "+")
+
+        draw(result_canvas, transform(points, 160, 0), "0")
+        draw(result_canvas, transform(points, 160, 30), "30")
+        draw(result_canvas, transform(points, 160, 60), "60")
+        draw(result_canvas, transform(points, 160, 90), "90")
+
+        result_image.save(resultDirectory + "/" + fileName, fileType)
+        result_image.close()
+
+        # Expected image for transform
+        expected_image = Image.new(imageMode, imageSize, imageBackground)
+        expected_canvas = ImageDraw.Draw(expected_image)
+
+        draw(expected_canvas, points, "+")
+
+        draw(expected_canvas, ((480, 250), (480, 260), (480, 270), (480, 280)), "0")
+        draw(expected_canvas, ((458.56406461, 330), (458.56406461, 340), (458.56406461, 350), (458.56406461, 360)),
+             "30")
+        draw(expected_canvas, ((400, 388.56406461), (400, 398.56406461), (400, 408.56406461), (400, 418.56406461)),
+             "60")
+        draw(expected_canvas, ((320, 410), (320, 420), (320, 430), (320, 440)), "90")
+
         expected_image.save(expectedDirectory + "/" + fileName, fileType)
         expected_image.close()
 
