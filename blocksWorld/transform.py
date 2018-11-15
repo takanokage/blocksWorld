@@ -12,6 +12,7 @@ This module defines the following data types and methods:
 import math
 import numpy as np
 
+
 def rotate(points, center, angle):
     """
     Rotate a list of points.
@@ -35,6 +36,7 @@ def rotate(points, center, angle):
 
     return output
 
+
 def transform(points, distance, rotation_angle):
     """
     return: list of points after transformation
@@ -48,6 +50,24 @@ def transform(points, distance, rotation_angle):
         y1 = point[1]
         xi = (distance * math.cos(angle)) + x1
         yi = (distance * math.sin(angle)) + y1
+        output.append(np.array([xi, yi]))
+
+    return output
+
+def scale(center, points, scaling):
+    """
+    Scales a list of points
+    """
+    output = []
+
+    x0 = center[0]
+    y0 = center[1]
+
+    for point in points:
+        x1 = point[0]
+        y1 = point[1]
+        xi = (x1 + (scaling * x0))/scaling
+        yi = (y1 + (scaling * y0))/scaling
         output.append(np.array([xi, yi]))
 
     return output

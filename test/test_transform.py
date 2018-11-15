@@ -98,10 +98,8 @@ class test_transform(unittest.TestCase):
         draw(expected_canvas, points, "+")
 
         draw(expected_canvas, ((480, 250), (480, 260), (480, 270), (480, 280)), "0")
-        draw(expected_canvas, ((458.56406461, 330), (458.56406461, 340), (458.56406461, 350), (458.56406461, 360)),
-             "30")
-        draw(expected_canvas, ((400, 388.56406461), (400, 398.56406461), (400, 408.56406461), (400, 418.56406461)),
-             "60")
+        draw(expected_canvas, ((458.56406461, 330), (458.56406461, 340), (458.56406461, 350), (458.56406461, 360)), "30")
+        draw(expected_canvas, ((400, 388.56406461), (400, 398.56406461), (400, 408.56406461), (400, 418.56406461)),"60")
         draw(expected_canvas, ((320, 410), (320, 420), (320, 430), (320, 440)), "90")
 
         expected_image.save(expectedDirectory + "/" + fileName, fileType)
@@ -109,8 +107,36 @@ class test_transform(unittest.TestCase):
 
         result = resultDirectory + "/" + fileName
         expected = expectedDirectory + "/" + fileName
-
         self.assertTrue(open(result, "rb").read() == open(expected, "rb").read())
+
+    def test_scale(self):
+            fileName = 'test_scale.png'
+
+            # Result image for scaling
+            result_image = Image.new(imageMode, imageSize, imageBackground)
+            result_canvas = ImageDraw.Draw(result_image)
+
+            drawSolid(result_canvas, regularPolygon(3, np.array([320, 240]), 50), 'white')
+            drawSolid(result_canvas, regularPolygon(5, np.array([80, 60]), 70), 'white')
+            drawSolid(result_canvas, scale(np.array([320, 240]), (regularPolygon(3, np.array([320, 240]), 50)), 3),'black')
+            drawSolid(result_canvas, scale(np.array([80, 60]), (regularPolygon(5, np.array([80, 60]), 70)), 0.5),'black')
+
+            result_image.save(resultDirectory + "/" + fileName, fileType)
+            result_image.close()
+
+            # # Expected image for scaling
+            # expected_image = Image.new(imageMode, imageSize, imageBackground)
+            # expected_canvas = ImageDraw.Draw(expected_image)
+            #
+            # draw(expected_canvas, points, "+")
+            #
+            # expected_image.save(expectedDirectory + "/" + fileName, fileType)
+            # expected_image.close()
+            #
+            # result = resultDirectory + "/" + fileName
+            # expected = expectedDirectory + "/" + fileName
+
+            # self.assertTrue(open(result, "rb").read() == open(expected, "rb").read())
 
 
 if __name__ == '__main__':
