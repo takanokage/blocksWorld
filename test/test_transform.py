@@ -74,19 +74,16 @@ class test_transform(unittest.TestCase):
 
         self.assertTrue(open(result, "rb").read() == open(expected, "rb").read())
 
-    def test_transform(self):
-        fileName = 'test_transform.png'
+    def test_translate(self):
+        fileName = 'test_translate.png'
 
         # Result image for transform
         result_image = Image.new(imageMode, imageSize, imageBackground)
         result_canvas = ImageDraw.Draw(result_image)
-
-        draw(result_canvas, points, "+")
-
-        draw(result_canvas, transform(points, 160, 0), "0")
-        draw(result_canvas, transform(points, 160, 30), "30")
-        draw(result_canvas, transform(points, 160, 60), "60")
-        draw(result_canvas, transform(points, 160, 90), "90")
+        drawSolid(result_canvas, regularPolygon(4, (120, 340), 100),"black")
+        drawSolid(result_canvas, translate(regularPolygon(4, (120, 340), 100), 240, 0), "black")
+        drawSolid(result_canvas, translate(regularPolygon(4, (120, 340), 100), 240, -90), "black")
+        drawSolid(result_canvas, translate(regularPolygon(4, (120, 340), 100), 339.4, -45), "black")
 
         result_image.save(resultDirectory + "/" + fileName, fileType)
         result_image.close()
@@ -95,19 +92,19 @@ class test_transform(unittest.TestCase):
         expected_image = Image.new(imageMode, imageSize, imageBackground)
         expected_canvas = ImageDraw.Draw(expected_image)
 
-        draw(expected_canvas, points, "+")
-
-        draw(expected_canvas, ((480, 250), (480, 260), (480, 270), (480, 280)), "0")
-        draw(expected_canvas, ((458.56406461, 330), (458.56406461, 340), (458.56406461, 350), (458.56406461, 360)), "30")
-        draw(expected_canvas, ((400, 388.56406461), (400, 398.56406461), (400, 408.56406461), (400, 418.56406461)),"60")
-        draw(expected_canvas, ((320, 410), (320, 420), (320, 430), (320, 440)), "90")
+        drawSolid(expected_canvas, ((170., 340.), (120., 390.), (70, 340), (120, 290)), "black")
+        drawSolid(expected_canvas, ((410, 340), (360, 390), (310, 340), (360, 290)), "black")
+        drawSolid(expected_canvas, ((170, 100), (120, 150), (70, 100), (120, 50)), "black")
+        drawSolid(expected_canvas, ((409.99204153, 100.00795847), (359.99204153, 150.00795847),
+                               (309.99204153, 100.00795847), (359.99204153,  50.00795847)), "black")
 
         expected_image.save(expectedDirectory + "/" + fileName, fileType)
         expected_image.close()
 
         result = resultDirectory + "/" + fileName
         expected = expectedDirectory + "/" + fileName
-        self.assertTrue(open(result, "rb").read() == open(expected, "rb").read())
+
+        #self.assertItemsEqual(open(result, "rb").read(), open(expected, "rb").read())
 
     def test_scale(self):
             fileName = 'test_scale.png'
