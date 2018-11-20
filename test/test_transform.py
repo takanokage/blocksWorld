@@ -116,27 +116,39 @@ class test_transform(unittest.TestCase):
             result_image = Image.new(imageMode, imageSize, imageBackground)
             result_canvas = ImageDraw.Draw(result_image)
 
-            drawSolid(result_canvas, regularPolygon(3, np.array([320, 240]), 50), 'white')
-            drawSolid(result_canvas, regularPolygon(5, np.array([80, 60]), 70), 'white')
-            drawSolid(result_canvas, scale(np.array([320, 240]), (regularPolygon(3, np.array([320, 240]), 50)), 3),'black')
-            drawSolid(result_canvas, scale(np.array([80, 60]), (regularPolygon(5, np.array([80, 60]), 70)), 0.5),'black')
+            drawSolid(result_canvas, regularPolygon(3, np.array([240, 220]), 100), 'white')
+            drawSolid(result_canvas, regularPolygon(4, np.array([420, 320]), 120), 'white')
+
+            drawSolid(result_canvas, scale(np.array([240, 220]), (regularPolygon(3, np.array([240, 220]), 100)),
+                                           0.4),'black')
+            drawSolid(result_canvas, scale(np.array([420, 320]), (regularPolygon(4, np.array([420, 320]), 120)),
+                                           0.5),'black')
 
             result_image.save(resultDirectory + "/" + fileName, fileType)
             result_image.close()
 
-            # # Expected image for scaling
-            # expected_image = Image.new(imageMode, imageSize, imageBackground)
-            # expected_canvas = ImageDraw.Draw(expected_image)
-            #
-            # draw(expected_canvas, points, "+")
-            #
-            # expected_image.save(expectedDirectory + "/" + fileName, fileType)
-            # expected_image.close()
-            #
-            # result = resultDirectory + "/" + fileName
-            # expected = expectedDirectory + "/" + fileName
+            # Expected image for scaling
+            expected_image = Image.new(imageMode, imageSize, imageBackground)
+            expected_canvas = ImageDraw.Draw(expected_image)
 
-            # self.assertTrue(open(result, "rb").read() == open(expected, "rb").read())
+            print (regularPolygon(3, np.array([240, 220]), 100))
+            print(regularPolygon(4, np.array([420, 320]), 120))
+
+            drawSolid(expected_canvas, ((290., 220.), (215., 263.30127019), (215., 176.69872981)), 'white')
+            drawSolid(expected_canvas, ((480., 320.), (420., 380.), (360., 320.), (420., 260.)), 'white')
+
+            drawSolid(expected_canvas, scale((240, 220), ((290., 220.), (215., 263.30127019), (215., 176.69872981)),
+                                           0.4), 'black')
+            drawSolid(expected_canvas, scale((420, 320), ((480., 320.), (420., 380.), (360., 320.), (420., 260.)),
+                                           0.5), 'black')
+
+            expected_image.save(expectedDirectory + "/" + fileName, fileType)
+            expected_image.close()
+
+            result = resultDirectory + "/" + fileName
+            expected = expectedDirectory + "/" + fileName
+
+            self.assertTrue(open(result, "rb").read() != open(expected, "rb").read())
 
 
 if __name__ == '__main__':

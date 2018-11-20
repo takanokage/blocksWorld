@@ -66,8 +66,7 @@ def scale(center, points, scaling):
     for point in points:
         x1 = point[0]
         y1 = point[1]
-        xi = (x1 + (scaling * x0))/scaling
-        yi = (y1 + (scaling * y0))/scaling
+        xi = (scaling * (x1 - x0)) + x0
+        yi = (scaling * (y1 - y0)) + y0
         output.append(np.array([xi, yi]))
 
-    return output
