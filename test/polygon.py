@@ -185,7 +185,7 @@ class test_polygon(unittest.TestCase):
     def test_randomRotatedPolygon(self):
 
         """
-        this test is to create  random vertices and rotate them
+        this test is to create  random vertices and rotate them about a specific center
         """
 
         randomRotatedImage, randomRotatedCanvas = getImage('L', (640, 480), 'white')
