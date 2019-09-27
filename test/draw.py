@@ -3,17 +3,15 @@
     This module tests for Valid Image with the given boundaries
     TODO drawPattern
 """
-
 import os
 import unittest
 import sys
 from test import *
 
-drawReferencePath = os.path.join(referencePath, "draw")
-drawReferencePath = os.path.abspath(drawReferencePath)
-
-drawOutputPath = os.path.join(outputPath, "draw")
-drawOutputPath = os.path.abspath(drawOutputPath)
+from set_para import filename, root
+from set_para import drawOutputPath
+from dataSet import draw_points
+from set_para import get_image, get_path, validate
 
 if not os.path.exists(drawOutputPath):
     os.makedirs(drawOutputPath)
@@ -35,50 +33,40 @@ class TestDraw(unittest.TestCase):
 
     # Result image for draw
     def test_draw(self):
-        fileName = FileName(sys._getframe().f_code.co_name)
 
-        resultFile    = os.path.join(drawOutputPath, fileName)
-        referenceFile = os.path.join(drawReferencePath, fileName)
+        """ Create the file name and its saving path, and specify the reference file to compare to."""
+        image_name = filename(sys._getframe().f_code.co_name)
+        result_file, reference_file = get_path(image_name)
 
-        imageSize = (15, 90)
-        imageMode = 'L'
-        imageBackground = 'white'
+        ''' This function is to create an empty image with a specific dimension
+            with white background, and black/white colored '''
 
-        image = Image.new(imageMode, imageSize, imageBackground)
-        canvas = ImageDraw.Draw(image)
+        image, canvas = get_image('L', (15,90),'white')
 
-        points = [
-            np.array([5,  5]),
-            np.array([5, 15]),
-            np.array([5, 25]),
-            np.array([5, 35]),
-            np.array([5, 45]),
-            np.array([5, 55]),
-            np.array([5, 65]),
-            np.array([5, 75])
-        ]
+        for i in range(len(draw_points) - 1):
+            draw(canvas, (draw_points[i + 0], draw_points[i + 1]), 'A')
 
-        for i in range(len(points) - 1):
-            draw(canvas, (points[i + 0], points[i + 1]), 'A')
+        """ saving the file and closing it """
 
-        image.save(resultFile)
+        image.save(result_file)
         image.close()
 
-        Validate(referenceFile, resultFile)
+        """ validate the resultant file against the reference images"""
+
+        validate(reference_file, result_file)
 
     # Result image for drawWire
     def test_drawWire(self):
-        fileName = FileName(sys._getframe().f_code.co_name)
 
-        resultFile    = os.path.join(drawOutputPath, fileName)
-        referenceFile = os.path.join(drawReferencePath, fileName)
+        """ Create the file name and its saving path, and specify the reference file to compare to."""
 
-        imageSize = (640, 480)
-        imageMode = 'L'
-        imageBackground = 'white'
+        image_name = filename(sys._getframe().f_code.co_name)
+        result_file, reference_file = get_path(image_name)
 
-        image = Image.new(imageMode, imageSize, imageBackground)
-        canvas = ImageDraw.Draw(image)
+        ''' This function is to create an empty image with a specific dimension
+            with white background, and black/white colored '''
+
+        image, canvas = get_image('L',(640,480),'white')
 
         drawWire(canvas, regularPolygon(3, np.array([160, 120]), 50))
         drawWire(canvas, regularPolygon(4, np.array([480, 120]), 90))
@@ -86,24 +74,27 @@ class TestDraw(unittest.TestCase):
         drawWire(canvas, regularPolygon(6, np.array([160, 360]), 80))
         drawWire(canvas, regularPolygon(7, np.array([320, 160]), 70))
 
-        image.save(resultFile)
+        """ saving the file and closing it """
+
+        image.save(result_file)
         image.close()
 
-        Validate(referenceFile, resultFile)
+        """ validate the resultant file against the reference images"""
+
+        validate(reference_file, result_file)
 
     # Result image for drawSolid
     def test_drawSolid(self):
-        fileName = FileName(sys._getframe().f_code.co_name)
 
-        resultFile    = os.path.join(drawOutputPath, fileName)
-        referenceFile = os.path.join(drawReferencePath, fileName)
+        """ Create the file name and its saving path, and specify the reference file to compare to."""
 
-        imageSize = (640, 480)
-        imageMode = 'RGB'
-        imageBackground = 'white'
+        image_name = filename(sys._getframe().f_code.co_name)
+        result_file, reference_file = get_path(image_name)
 
-        image = Image.new(imageMode, imageSize, imageBackground)
-        canvas = ImageDraw.Draw(image)
+        ''' This function is to create an empty image with a specific dimension
+            with white background, and black/white colored '''
+
+        image, canvas = get_image('RGB', (640, 480), 'white')
 
         '''
         for different representations of colors see
@@ -115,11 +106,13 @@ class TestDraw(unittest.TestCase):
         drawSolid(canvas, regularPolygon(6, np.array([160, 360]), 80), 'black')
         drawSolid(canvas, regularPolygon(7, np.array([320, 160]), 70), 'brown')
 
-        image.save(resultFile)
+        """ saving the file and closing it """
+        image.save(result_file)
         image.close()
 
-        Validate(referenceFile, resultFile)
+        """ validate the resultant file against the reference images"""
 
+        validate(reference_file, result_file)
 
 if __name__ == '__main__':
     unittest.main()
