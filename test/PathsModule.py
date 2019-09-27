@@ -1,12 +1,29 @@
 #!/usr/bin/env python
-"""
-    This module helps with the tests.
-"""
 import os
 import sys
 from PIL import Image, ImageDraw
+
+"""
+    This module helps with the tests. 
+    - provides root, output path, and reference path directories for 
+        - draw
+        - polygon
+        - transform   
+    - it includes three sub-functions:
+        - fileName : which create the file name based on the test being performed and add extension to it. 
+        - validate : compare whether the resultant file is resemble the reference file. 
+        - getImage : create a image with specific requirements.
+        - getPath : obtains the path to save the resultant image.
+"""
+
 crtScriptDir = os.path.dirname(sys.argv[0])
 root = os.path.abspath(crtScriptDir)
+
+AggregateOutputPath = os.path.join(root,"Aggregate")
+AggregateOutputPath = os.path.abspath(AggregateOutputPath)
+
+JsonInputPath = os.path.join(root,"Jsonfile")
+JsonInputPath = os.path.abspath(JsonInputPath)
 
 outputPath = os.path.join(root, "output")
 outputPath = os.path.abspath(outputPath)
@@ -28,42 +45,46 @@ transformOutputPath = os.path.join(outputPath, "transform")
 transformOutputPath = os.path.abspath(transformOutputPath)
 transformReferencePath = os.path.join(referencePath, "transform")
 transformReferencePath = os.path.abspath(transformReferencePath)
-# Result image for draw
 
 
-def filename(name):
+def fileName(name):
 
+    """
+    This function adds the provided name with an appropriate extension.
+    """
     return name + '.png'
 
 
-def validate(reference_file, result_file):
+def validate(referenceFile, resultFile):
 
     """
     compare results against reference data
     inputs : the path to the reference file, path to resultant file
     returns : True or False
     """
-    print(result_file)
-    print(reference_file)
-    with open(result_file, "rb") as result:
-        with open(reference_file, "rb") as reference:
+
+    with open(resultFile, "rb") as result:
+        with open(referenceFile, "rb") as reference:
             assert(reference.read() == result.read())
 
 
-def get_image(imagemode, imagesize, imagebackground):
+def getImage(imageMode, imageSize, imageBackground):
+
     """
     This function is to generate an image with a specific background, mode, and size
     inputs: plotting mode, image size in tuple (x,y), background color 'while' for ex.
     returns: image , and canvas objects
 
     """
-    image = Image.new(imagemode, imagesize, imagebackground)
+
+    image = Image.new(imageMode, imageSize, imageBackground)
     canvas = ImageDraw.Draw(image)
 
     return image, canvas
 
 
-def get_path(image_name):
+def getPath(imageName):
+
     """
     This function is to set a path to resultant and reference files
     inputs: path to (drawing, polygon, transform) folder, path to (drawing, polygon, transform, depends on
@@ -71,19 +92,19 @@ def get_path(image_name):
     outputs: full path to resultant, and reference files.
     """
 
-    if image_name.find('draw') != -1:
+    if imageName.find('draw') != -1:
 
-        result_file = os.path.join(drawOutputPath, image_name)
-        reference_file = os.path.join(drawReferencePath, image_name)
+        resultFile = os.path.join(drawOutputPath, imageName)
+        referenceFile = os.path.join(drawReferencePath, imageName)
 
-    elif image_name.find('Polygon') != -1:
+    elif imageName.find('Polygon') != -1:
 
-        result_file = os.path.join(polygonOutputPath, image_name)
-        reference_file = os.path.join(polygonReferencePath, image_name)
+        resultFile = os.path.join(polygonOutputPath, imageName)
+        referenceFile = os.path.join(polygonReferencePath, imageName)
 
-    elif image_name.find('transform') != -1:
+    elif imageName.find('transform') != -1:
 
-        result_file = os.path.join(transformOutputPath, image_name)
-        reference_file = os.path.join(transformReferencePath, image_name)
+        resultFile = os.path.join(transformOutputPath, imageName)
+        referenceFile = os.path.join(transformReferencePath, imageName)
 
-    return result_file, reference_file
+    return resultFile, referenceFile

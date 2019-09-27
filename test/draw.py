@@ -1,17 +1,17 @@
 #!/usr/bin/env python
+import os
+import unittest
+import sys
+from dataSet import drawPoints
+from PathsModule import fileName, root
+from PathsModule import drawOutputPath
+from PathsModule import getImage, getPath, validate
+
 """
     This module tests for Valid Image with the given boundaries
     TODO drawPattern
 """
-import os
-import unittest
-import sys
-from test import *
 
-from set_para import filename, root
-from set_para import drawOutputPath
-from dataSet import draw_points
-from set_para import get_image, get_path, validate
 
 if not os.path.exists(drawOutputPath):
     os.makedirs(drawOutputPath)
@@ -26,6 +26,7 @@ except ImportError:
     sys.path.append(blocksWorldPath)
     from blocksWorld import *
 
+
 class TestDraw(unittest.TestCase):
     """
     Plotting images for draw , drawWire and drawSolid
@@ -34,39 +35,41 @@ class TestDraw(unittest.TestCase):
     # Result image for draw
     def test_draw(self):
 
-        """ Create the file name and its saving path, and specify the reference file to compare to."""
-        image_name = filename(sys._getframe().f_code.co_name)
-        result_file, reference_file = get_path(image_name)
+        """
+        This test is to draw a number of vertices labeled as 'A'
+        """
 
-        ''' This function is to create an empty image with a specific dimension
-            with white background, and black/white colored '''
+        # Create the file name and its saving path, and specify the reference file to compare to.
+        image_name = fileName(sys._getframe().f_code.co_name)
+        resultFile, referenceFile = getPath(image_name)
 
-        image, canvas = get_image('L', (15,90),'white')
+        # create an empty image with a specific dimension with white background, and black/white colored
+        image, canvas = getImage('L', (15, 90), 'white')
 
-        for i in range(len(draw_points) - 1):
-            draw(canvas, (draw_points[i + 0], draw_points[i + 1]), 'A')
+        for i in range(len(drawPoints) - 1):
+            draw(canvas, (drawPoints[i + 0], drawPoints[i + 1]), 'A')
 
-        """ saving the file and closing it """
-
-        image.save(result_file)
+        # saving the file and closing it
+        image.save(resultFile)
         image.close()
 
-        """ validate the resultant file against the reference images"""
-
-        validate(reference_file, result_file)
+        # validate the resultant file against the reference images
+        validate(referenceFile, resultFile)
 
     # Result image for drawWire
     def test_drawWire(self):
 
-        """ Create the file name and its saving path, and specify the reference file to compare to."""
+        """
+        This test is to draw a line between two vertices
+        """
 
-        image_name = filename(sys._getframe().f_code.co_name)
-        result_file, reference_file = get_path(image_name)
+        # Create the file name and its saving path, and specify the reference file to compare to.
+        imageName = fileName(sys._getframe().f_code.co_name)
+        resultFile, referenceFile = getPath(imageName)
 
-        ''' This function is to create an empty image with a specific dimension
-            with white background, and black/white colored '''
 
-        image, canvas = get_image('L',(640,480),'white')
+        # create an empty image with a specific dimension with white background, and black/white colored
+        image, canvas = getImage('L', (640, 480), 'white')
 
         drawWire(canvas, regularPolygon(3, np.array([160, 120]), 50))
         drawWire(canvas, regularPolygon(4, np.array([480, 120]), 90))
@@ -74,45 +77,39 @@ class TestDraw(unittest.TestCase):
         drawWire(canvas, regularPolygon(6, np.array([160, 360]), 80))
         drawWire(canvas, regularPolygon(7, np.array([320, 160]), 70))
 
-        """ saving the file and closing it """
-
-        image.save(result_file)
+        # saving the file and closing it
+        image.save(resultFile)
         image.close()
 
-        """ validate the resultant file against the reference images"""
-
-        validate(reference_file, result_file)
+        # validate the resultant file against the reference images
+        validate(referenceFile, resultFile)
 
     # Result image for drawSolid
     def test_drawSolid(self):
+        """
+        This test is to create polygons filled with a particular color: red, blue,...ect.
+        """
 
-        """ Create the file name and its saving path, and specify the reference file to compare to."""
+        # first, Create the file name and its saving path, and specify the reference file to compare to.
+        imageName = fileName(sys._getframe().f_code.co_name)
+        resultFile, referenceFile = getPath(imageName)
 
-        image_name = filename(sys._getframe().f_code.co_name)
-        result_file, reference_file = get_path(image_name)
+        # Next, create an empty image with a specific dimension with white background, and black/white colored
+        image, canvas = getImage('RGB', (640, 480), 'white')
 
-        ''' This function is to create an empty image with a specific dimension
-            with white background, and black/white colored '''
-
-        image, canvas = get_image('RGB', (640, 480), 'white')
-
-        '''
-        for different representations of colors see
-        "https://pillow.readthedocs.io/en/3.0.x/reference/ImageColor.html#color-names"
-        '''
         drawSolid(canvas, regularPolygon(3, np.array([160, 120]), 50), 'red')
         drawSolid(canvas, regularPolygon(4, np.array([480, 120]), 90), 'blue')
         drawSolid(canvas, regularPolygon(5, np.array([420, 360]), 60), 'green')
         drawSolid(canvas, regularPolygon(6, np.array([160, 360]), 80), 'black')
         drawSolid(canvas, regularPolygon(7, np.array([320, 160]), 70), 'brown')
 
-        """ saving the file and closing it """
-        image.save(result_file)
+        # saving the file and closing it
+        image.save(resultFile)
         image.close()
 
-        """ validate the resultant file against the reference images"""
+        # validate the resultant file against the reference images
+        validate(referenceFile, resultFile)
 
-        validate(reference_file, result_file)
 
 if __name__ == '__main__':
     unittest.main()
